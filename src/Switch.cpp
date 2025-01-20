@@ -11,7 +11,7 @@ Switch::Switch( SwitchCtrl* pSwitchCtrl,
                 const char* deviceType,
                 uint16_t deviceVersion) :
                 RemoteDevice(ESP.getChipId(), deviceType, deviceVersion),
-                _led(ledPin, ledOn, 100, 100, 100)
+                _led(ledPin, ledOn, 100, 300, 1000)
 {
     _pSwitchCtrl = pSwitchCtrl;
     _pSwitchCtrl->setListener(this);
@@ -24,7 +24,7 @@ void Switch::update(unsigned long curTime)
     RemoteDevice::update(curTime);
     _pSwitchCtrl->update(curTime);
     _led.update(curTime);
-    if(curTime - _ledStarted > 10000)
+    if(_led.isBlinking() && curTime - _ledStarted > 15000)
     {
         _led.stopBlink();
     }
@@ -37,7 +37,7 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
     {
         case CMD_IDENTIFY:
             Serial.println("Identify received!");
-            _led.startBlink(10);
+            _led.startBlink(arg1);
             _ledStarted = _curTime;
             return 0;
         case CMD_SWITCH_LEFT:
