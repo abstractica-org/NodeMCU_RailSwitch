@@ -142,6 +142,5 @@ bool StepperSwitchCtrl::switchTo(uint8_t side)
             }
             return true; 
     }
-    Serial.println("ERROR: Unknow side");
     return false;
 }

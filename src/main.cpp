@@ -56,7 +56,6 @@ void setup()
   {
     wifiManager.resetSettings();
   }
-  
   wifiManager.autoConnect(apName.c_str());
   //if you get here you have connected to the WiFi
   Serial.println("WiFi is connected!");

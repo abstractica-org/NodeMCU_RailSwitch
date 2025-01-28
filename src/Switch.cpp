@@ -32,16 +32,13 @@ void Switch::update(unsigned long curTime)
 
 uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2, uint16_t arg3, uint16_t arg4, uint8_t* pData, uint16_t size)
 {
-    Serial.println("Packet received!");
     switch(command)
     {
         case CMD_IDENTIFY:
-            Serial.println("Identify received!");
             _led.startBlink(arg1);
             _ledStarted = _curTime;
             return 0;
         case CMD_SWITCH_LEFT:
-        Serial.println("Switch left received!");
             if(_pSwitchCtrl->switchTo(LEFT))
             {
                 return 0;
@@ -51,7 +48,6 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
                 return 101;
             }
         case CMD_SWITCH_RIGHT:
-            Serial.println("Switch right received!");
             if(_pSwitchCtrl->switchTo(RIGHT))
             {
                 return 0;
@@ -61,12 +57,9 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
                 return 101;
             }
         case CMD_GET_STATE:
-            Serial.println("Get state received!");
             sendPacketToServer(CMD_ON_STATE_CHANGE, _pSwitchCtrl->getState(), 0, 0, 0, true, true);
             return 0;
         default:
-            Serial.print("Unknown command: ");
-            Serial.println(command);
             return 404;
     }
 }
