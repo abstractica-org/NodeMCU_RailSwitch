@@ -30,7 +30,7 @@ void Switch::update(unsigned long curTime)
     }
 }
 
-uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2, uint8_t* pData, uint16_t size)
+uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2, uint16_t arg3, uint16_t arg4, uint8_t* pData, uint16_t size)
 {
     Serial.println("Packet received!");
     switch(command)
@@ -62,7 +62,7 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
             }
         case CMD_GET_STATE:
             Serial.println("Get state received!");
-            sendPacketToServer(CMD_ON_STATE_CHANGE, _pSwitchCtrl->getState(), 0, true, true);
+            sendPacketToServer(CMD_ON_STATE_CHANGE, _pSwitchCtrl->getState(), 0, 0, 0, true, true);
             return 0;
         default:
             Serial.print("Unknown command: ");
@@ -73,5 +73,5 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
 
 void Switch::onStateChange(uint8_t newState)
 {
-    sendPacketToServer(CMD_ON_STATE_CHANGE, newState, 0, true, true);
+    sendPacketToServer(CMD_ON_STATE_CHANGE, newState, 0, 0, 0, true, true);
 }
