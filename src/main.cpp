@@ -34,6 +34,8 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(WIFI_RESET_PIN, INPUT_PULLUP);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
   delay(10);
   bool resetWiFi = !digitalRead(WIFI_RESET_PIN);
   Serial.print("WiFiConfig -> Reset WiFi button pushed? : ");
@@ -59,7 +61,7 @@ void setup()
   wifiManager.autoConnect(apName.c_str());
   //if you get here you have connected to the WiFi
   Serial.println("WiFi is connected!");
-
+  digitalWrite(LED_BUILTIN, HIGH);
   rail_switch.begin(3377, 3377);
 }
 

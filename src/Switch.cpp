@@ -15,6 +15,7 @@ Switch::Switch( SwitchCtrl* pSwitchCtrl,
 {
     _pSwitchCtrl = pSwitchCtrl;
     _pSwitchCtrl->setListener(this);
+    _ledEndTime = 0;
 
 }
 
@@ -24,7 +25,7 @@ void Switch::update(unsigned long curTime)
     RemoteDevice::update(curTime);
     _pSwitchCtrl->update(curTime);
     _led.update(curTime);
-    if(_led.isBlinking() && curTime - _ledStarted > 15000)
+    if(_led.isBlinking() && curTime > _ledEndTime)
     {
         _led.stopBlink();
     }
@@ -36,7 +37,7 @@ uint16_t Switch::onPacketReceived(uint16_t command, uint16_t arg1, uint16_t arg2
     {
         case CMD_IDENTIFY:
             _led.startBlink(arg1);
-            _ledStarted = _curTime;
+            _ledEndTime = _curTime + ((unsigned int) arg2) * 1000;
             return 0;
         case CMD_SWITCH_LEFT:
             if(_pSwitchCtrl->switchTo(LEFT))

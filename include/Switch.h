@@ -40,7 +40,7 @@ public:
 private:
     LEDBlinker _led;
     unsigned long _curTime;
-    unsigned long _ledStarted;
+    unsigned long _ledEndTime;
     SwitchCtrl* _pSwitchCtrl;
 };
 
